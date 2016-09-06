@@ -1,0 +1,110 @@
+# HG changeset patch
+# User Richard Russon <rich@flatcap.org>
+# Date 1462490650 -3600
+#      Fri May 06 00:24:10 2016 +0100
+# Branch gentoo-1.7
+# Node ID bbceb4335ea6dc5401e3df312d6a3ee2255d6988
+# Parent  90f851f933cf6f471a935500554fbf9803a12370
+[PATCH] feature: timeout
+From 285e95b898c3d6f816dc39e731caa9d5ecd5e96d Mon Sep 17 00:00:00 2001
+---
+ curs_main.c |  4 +++-
+ hook.c      | 31 ++++++++++++++++++++++++++++++-
+ init.h      |  1 +
+ mutt.h      |  1 +
+ protos.h    |  1 +
+ 5 files changed, 36 insertions(+), 2 deletions(-)
+
+diff -r 90f851f933cf -r bbceb4335ea6 curs_main.c
+--- a/curs_main.c	Fri Jun 17 00:31:48 2016 +0100
++++ b/curs_main.c	Fri May 06 00:24:10 2016 +0100
+@@ -940,8 +940,10 @@ int mutt_index_menu (void)
+ 
+       dprint(4, (debugfile, "mutt_index_menu[%d]: Got op %d\n", __LINE__, op));
+ 
+-      if (op == -1)
++      if (op == -1) {
++        mutt_timeout_hook();
+ 	continue; /* either user abort or timeout */
++      }
+ 
+       mutt_curs_set (1);
+ 
+diff -r 90f851f933cf -r bbceb4335ea6 hook.c
+--- a/hook.c	Fri Jun 17 00:31:48 2016 +0100
++++ b/hook.c	Fri May 06 00:24:10 2016 +0100
+@@ -154,7 +154,7 @@ int mutt_parse_hook (BUFFER *buf, BUFFER
+ 	ptr->rx.not == not &&
+ 	!mutt_strcmp (pattern.data, ptr->rx.pattern))
+     {
+-      if (data & (MUTT_FOLDERHOOK | MUTT_SENDHOOK | MUTT_SEND2HOOK | MUTT_MESSAGEHOOK | MUTT_ACCOUNTHOOK | MUTT_REPLYHOOK | MUTT_CRYPTHOOK))
++      if (data & (MUTT_FOLDERHOOK | MUTT_SENDHOOK | MUTT_SEND2HOOK | MUTT_MESSAGEHOOK | MUTT_ACCOUNTHOOK | MUTT_REPLYHOOK | MUTT_CRYPTHOOK | MUTT_TIMEOUTHOOK))
+       {
+ 	/* these hooks allow multiple commands with the same
+ 	 * pattern, so if we've already seen this pattern/command pair, just
+@@ -554,3 +554,32 @@ void mutt_account_hook (const char* url)
+   FREE (&err.data);
+ }
+ #endif
++
++void mutt_timeout_hook (void)
++{
++  HOOK *hook;
++  BUFFER token;
++  BUFFER err;
++  char buf[STRING];
++
++  err.data = buf;
++  err.dsize = sizeof (buf);
++  memset (&token, 0, sizeof (token));
++
++  for (hook = Hooks; hook; hook = hook->next)
++  {
++    if (!(hook->command && (hook->type & MUTT_TIMEOUTHOOK)))
++      continue;
++
++    if (mutt_parse_rc_line (hook->command, &token, &err) == -1)
++    {
++      FREE (&token.data);
++      mutt_error ("%s", err.data);
++      mutt_sleep (1);
++
++      /* The hooks should be independent of each other, so even though this on
++       * failed, we'll carry on with the others. */
++    }
++  }
++}
++
+diff -r 90f851f933cf -r bbceb4335ea6 init.h
+--- a/init.h	Fri Jun 17 00:31:48 2016 +0100
++++ b/init.h	Fri May 06 00:24:10 2016 +0100
+@@ -4328,6 +4328,7 @@ const struct command_t Commands[] = {
+   { "spam",		parse_spam_list,	MUTT_SPAM },
+   { "nospam",		parse_spam_list,	MUTT_NOSPAM },
+   { "subscribe",	parse_subscribe,	0 },
++  { "timeout-hook",	mutt_parse_hook,	MUTT_TIMEOUTHOOK },
+   { "toggle",		parse_set,		MUTT_SET_INV },
+   { "unalias",		parse_unalias,		0 },
+   { "unalternative_order",parse_unlist,		UL &AlternativeOrderList },
+diff -r 90f851f933cf -r bbceb4335ea6 mutt.h
+--- a/mutt.h	Fri Jun 17 00:31:48 2016 +0100
++++ b/mutt.h	Fri May 06 00:24:10 2016 +0100
+@@ -164,6 +164,7 @@ typedef enum
+ #define MUTT_APPENDHOOK  (1<<13)
+ #define MUTT_CLOSEHOOK   (1<<14)
+ #endif
++#define MUTT_TIMEOUTHOOK (1<<15)
+ 
+ /* tree characters for linearize_tree and print_enriched_string */
+ #define MUTT_TREE_LLCORNER      1
+diff -r 90f851f933cf -r bbceb4335ea6 protos.h
+--- a/protos.h	Fri Jun 17 00:31:48 2016 +0100
++++ b/protos.h	Fri May 06 00:24:10 2016 +0100
+@@ -154,6 +154,7 @@ const char *mutt_get_name (ADDRESS *);
+ char *mutt_get_parameter (const char *, PARAMETER *);
+ LIST *mutt_crypt_hook (ADDRESS *);
+ char *mutt_make_date (char *, size_t);
++void mutt_timeout_hook (void);
+ 
+ const char *mutt_make_version (void);
+ 

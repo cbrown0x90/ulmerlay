@@ -1,0 +1,107 @@
+# HG changeset patch
+# User Karel Zak <kzak@redhat.com>
+# Date 1454171239 0
+#      Sat Jan 30 16:27:19 2016 +0000
+# Branch gentoo-1.7
+# Node ID 9366196c22a099decaa5ca9edc97da1e0ceb5a6b
+# Parent  32b1a18320f46959497d3ac38711cef7cdf72393
+[PATCH] feature: quasi-delete
+From 7ecac729fc50de6a37270ac4b422afca9f3cc91f Mon Sep 17 00:00:00 2001
+Mark emails that should be hidden, but not deleted
+---
+ OPS         |  1 +
+ curs_main.c | 14 ++++++++++++++
+ functions.h |  2 ++
+ mutt.h      |  1 +
+ mx.c        |  5 +++--
+ 5 files changed, 21 insertions(+), 2 deletions(-)
+
+diff -r 32b1a18320f4 -r 9366196c22a0 OPS
+--- a/OPS	Sat Jan 30 16:22:13 2016 +0000
++++ b/OPS	Sat Jan 30 16:27:19 2016 +0000
+@@ -127,6 +127,7 @@ OP_MAIN_READ_SUBTHREAD "mark the current
+ OP_MAIN_SET_FLAG "set a status flag on a message"
+ OP_MAIN_SYNC_FOLDER "save changes to mailbox"
+ OP_MAIN_TAG_PATTERN "tag messages matching a pattern"
++OP_MAIN_QUASI_DELETE "delete from mutt, don't touch on disk"
+ OP_MAIN_UNDELETE_PATTERN "undelete messages matching a pattern"
+ OP_MAIN_UNTAG_PATTERN "untag messages matching a pattern"
+ OP_MIDDLE_PAGE "move to the middle of the page"
+diff -r 32b1a18320f4 -r 9366196c22a0 PATCHES
+--- a/PATCHES	Sat Jan 30 16:22:13 2016 +0000
++++ b/PATCHES	Sat Jan 30 16:27:19 2016 +0000
+@@ -1,3 +1,4 @@
++patch-quasi-delete-neomutt
+ patch-tls-sni-neomutt
+ patch-index-color-neomutt
+ patch-status-color-neomutt
+diff -r 32b1a18320f4 -r 9366196c22a0 curs_main.c
+--- a/curs_main.c	Sat Jan 30 16:22:13 2016 +0000
++++ b/curs_main.c	Sat Jan 30 16:27:19 2016 +0000
+@@ -1286,6 +1286,20 @@ int mutt_index_menu (void)
+ 	  menu->redraw = REDRAW_FULL;
+ 	break;
+ 
++      case OP_MAIN_QUASI_DELETE:
++	if (tag) {
++	  for (j = 0; j < Context->vcount; j++) {
++	    if (Context->hdrs[Context->v2r[j]]->tagged) {
++	      Context->hdrs[Context->v2r[j]]->quasi_deleted = TRUE;
++	      Context->changed = TRUE;
++	    }
++	  }
++	} else {
++	  CURHDR->quasi_deleted = TRUE;
++	  Context->changed = 1;
++	}
++	break;
++
+ #ifdef USE_SIDEBAR
+       case OP_SIDEBAR_OPEN:
+ #endif
+diff -r 32b1a18320f4 -r 9366196c22a0 functions.h
+--- a/functions.h	Sat Jan 30 16:22:13 2016 +0000
++++ b/functions.h	Sat Jan 30 16:27:19 2016 +0000
+@@ -167,6 +167,7 @@ const struct binding_t OpMain[] = { /* m
+   { "mail-key",			OP_MAIL_KEY,			"\033k" },
+   { "decrypt-copy",		OP_DECRYPT_COPY,		NULL },
+   { "decrypt-save",		OP_DECRYPT_SAVE,		NULL },
++  { "quasi-delete",		OP_MAIN_QUASI_DELETE,		NULL },
+ 
+ #ifdef USE_SIDEBAR
+   { "sidebar-next",		OP_SIDEBAR_NEXT,		NULL },
+@@ -283,6 +284,7 @@ const struct binding_t OpPager[] = { /* 
+   { "decrypt-save",    	OP_DECRYPT_SAVE,		NULL },
+ 
+   { "what-key",		OP_WHAT_KEY,		NULL },
++  { "quasi-delete",	OP_MAIN_QUASI_DELETE,		NULL },
+ 
+ #ifdef USE_SIDEBAR
+   { "sidebar-next",		OP_SIDEBAR_NEXT,		NULL },
+diff -r 32b1a18320f4 -r 9366196c22a0 mutt.h
+--- a/mutt.h	Sat Jan 30 16:22:13 2016 +0000
++++ b/mutt.h	Sat Jan 30 16:27:19 2016 +0000
+@@ -752,6 +752,7 @@ typedef struct header
+   unsigned int tagged : 1;
+   unsigned int deleted : 1;
+   unsigned int purge : 1;               /* skip trash folder when deleting */
++  unsigned int quasi_deleted : 1;	/* deleted from mutt, but not modified on disk */
+   unsigned int changed : 1;
+   unsigned int attach_del : 1; 		/* has an attachment marked for deletion */
+   unsigned int old : 1;
+diff -r 32b1a18320f4 -r 9366196c22a0 mx.c
+--- a/mx.c	Sat Jan 30 16:22:13 2016 +0000
++++ b/mx.c	Sat Jan 30 16:27:19 2016 +0000
+@@ -1060,9 +1060,10 @@ void mx_update_tables(CONTEXT *ctx, int 
+ #define this_body ctx->hdrs[j]->content
+   for (i = 0, j = 0; i < ctx->msgcount; i++)
+   {
+-    if ((committing && (!ctx->hdrs[i]->deleted || 
++    if (!ctx->hdrs[i]->quasi_deleted &&
++	((committing && (!ctx->hdrs[i]->deleted ||
+ 			(ctx->magic == MUTT_MAILDIR && option (OPTMAILDIRTRASH)))) ||
+-	(!committing && ctx->hdrs[i]->active))
++	(!committing && ctx->hdrs[i]->active)))
+     {
+       if (i != j)
+       {

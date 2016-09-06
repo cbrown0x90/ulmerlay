@@ -1,0 +1,101 @@
+# HG changeset patch
+# User Karel Zak <kzak@redhat.com>
+# Date 1346916714 -7200
+#      Thu Sep 06 09:31:54 2012 +0200
+# Branch gentoo-1.7
+# Node ID d768aaae1eb83fdfe85f5dffec914ec68520749c
+# Parent  a4e83f60e42f80599e71df90bfc69db4704e5f97
+[PATCH] add strndup.c strnlen.c
+From 4d8908526bbb903e0cd4e824bc8a0b9349667cdf Mon Sep 17 00:00:00 2001
+Reported-by: Vladimir.Marek@oracle.com
+Signed-off-by: Karel Zak <kzak@redhat.com>
+---
+ configure.ac |  2 +-
+ protos.h     |  9 +++++++++
+ strndup.c    | 19 +++++++++++++++++++
+ strnlen.c    | 20 ++++++++++++++++++++
+ 4 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 strndup.c
+ create mode 100644 strnlen.c
+
+diff -r a4e83f60e42f -r d768aaae1eb8 configure.ac
+--- a/configure.ac	Wed Aug 17 20:12:28 2016 -0700
++++ b/configure.ac	Thu Sep 06 09:31:54 2012 +0200
+@@ -364,7 +364,7 @@ AC_CHECK_TYPE(ssize_t, int)
+ 
+ AC_CHECK_FUNCS(fgetpos memmove setegid srand48 strerror)
+ 
+-AC_REPLACE_FUNCS([setenv strcasecmp strdup strsep strtok_r wcscasecmp])
++AC_REPLACE_FUNCS([setenv strcasecmp strdup strndup strnlen strsep strtok_r wcscasecmp])
+ AC_REPLACE_FUNCS([strcasestr mkdtemp])
+ 
+ AC_CHECK_FUNC(getopt)
+diff -r a4e83f60e42f -r d768aaae1eb8 protos.h
+--- a/protos.h	Wed Aug 17 20:12:28 2016 -0700
++++ b/protos.h	Thu Sep 06 09:31:54 2012 +0200
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (C) 1996-2000,2007,2010,2013 Michael R. Elkins <me@mutt.org>
++ * Copyright (C) 2013 Karel Zak <kzak@redhat.com>
+  * 
+  *     This program is free software; you can redistribute it and/or modify
+  *     it under the terms of the GNU General Public License as published by
+@@ -567,3 +568,11 @@ char *strcasestr (const char *, const ch
+ #ifndef HAVE_MKDTEMP
+ char *mkdtemp (char *tmpl);
+ #endif
++
++#ifndef HAVE_STRNLEN
++size_t strnlen(const char *s, size_t maxlen);
++#endif
++
++#ifndef HAVE_STRNDUP
++char *strndup(const char *s, size_t n);
++#endif
+diff -r a4e83f60e42f -r d768aaae1eb8 strndup.c
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/strndup.c	Thu Sep 06 09:31:54 2012 +0200
+@@ -0,0 +1,19 @@
++/*
++ * Copyright (C) 2013 Karel Zak <kzak@redhat.com>
++ */
++
++#if HAVE_CONFIG_H
++# include "config.h"
++#endif
++
++#include "mutt.h"
++
++char *strndup(const char *s, size_t n)
++{
++	size_t len = strnlen(s, n);
++	char *new = safe_malloc((len + 1) * sizeof(char));
++	if (!new)
++		return NULL;
++	new[len] = '\0';
++	return (char *) memcpy(new, s, len);
++}
+diff -r a4e83f60e42f -r d768aaae1eb8 strnlen.c
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/strnlen.c	Thu Sep 06 09:31:54 2012 +0200
+@@ -0,0 +1,20 @@
++/*
++ * Copyright (C) 2013 Karel Zak <kzak@redhat.com>
++ */
++
++#if HAVE_CONFIG_H
++# include "config.h"
++#endif
++
++#include "mutt.h"
++
++size_t strnlen(const char *s, size_t maxlen)
++{
++        int i;
++
++        for (i = 0; i < maxlen; i++) {
++                if (s[i] == '\0')
++                        return i + 1;
++        }
++        return maxlen;
++}

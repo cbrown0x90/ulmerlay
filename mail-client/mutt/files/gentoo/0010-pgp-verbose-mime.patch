@@ -1,0 +1,66 @@
+# HG changeset patch
+# User Richard Russon <rich@flatcap.org>
+# Date 1464576998 -3600
+#      Mon May 30 03:56:38 2016 +0100
+# Branch gentoo-1.7
+# Node ID 6858757af8970db378c61afb07ea8e42e85bf7b2
+# Parent  78ba51728e2cecfda866a95de7d5ef6e008ee3e7
+[PATCH 10/11] pgp-verbose-mime
+From 876ac33db986c6084ba3576e05ab011c699a0302 Mon Sep 17 00:00:00 2001
+Configurable PGP mime part name path by Vineet Kumar
+
+Orignal patch from http://www.doorstop.net/projects
+---
+ PATCHES   |  1 +
+ globals.h |  2 ++
+ init.h    | 12 ++++++++++++
+ pgp.c     |  3 ++-
+ 4 files changed, 17 insertions(+), 1 deletion(-)
+
+diff -r 78ba51728e2c -r 6858757af897 globals.h
+--- a/globals.h	Mon May 30 03:55:55 2016 +0100
++++ b/globals.h	Mon May 30 03:56:38 2016 +0100
+@@ -274,6 +274,8 @@ WHERE REGEXP PgpDecryptionOkay;
+ WHERE char *PgpSignAs;
+ WHERE short PgpTimeout;
+ WHERE char *PgpEntryFormat;
++WHERE char *PgpMimeSignatureFilename;
++WHERE char *PgpMimeSignatureDescription;
+ WHERE char *PgpClearSignCommand;
+ WHERE char *PgpDecodeCommand;
+ WHERE char *PgpVerifyCommand;
+diff -r 78ba51728e2c -r 6858757af897 init.h
+--- a/init.h	Mon May 30 03:55:55 2016 +0100
++++ b/init.h	Mon May 30 03:56:38 2016 +0100
+@@ -3230,6 +3230,18 @@ struct option_t MuttVars[] = {
+   ** a line quoted text if it also matches $$smileys. This mostly
+   ** happens at the beginning of a line.
+   */
++  { "pgp_mime_signature_filename", DT_STR, R_NONE, UL &PgpMimeSignatureFilename, UL "signature.asc"},
++  /*
++  ** .pp
++  ** This option sets the filename used for signature parts in PGP/MIME
++  ** signed messages.
++  */
++  { "pgp_mime_signature_description", DT_STR, R_NONE, UL &PgpMimeSignatureDescription, UL "Digital signature"},
++  /*
++  ** .pp
++  ** This option sets the Content-Description used for signature parts in
++  ** PGP/MIME signed messages.
++  */
+ 
+ 
+ 
+diff -r 78ba51728e2c -r 6858757af897 pgp.c
+--- a/pgp.c	Mon May 30 03:55:55 2016 +0100
++++ b/pgp.c	Mon May 30 03:56:38 2016 +0100
+@@ -1261,7 +1261,8 @@ BODY *pgp_sign_message (BODY *a)
+   t->disposition = DISPNONE;
+   t->encoding = ENC7BIT;
+   t->unlink = 1; /* ok to remove this file after sending. */
+-  mutt_set_parameter ("name", "signature.asc", &t->parameter);
++  mutt_set_parameter ("name", PgpMimeSignatureFilename, &t->parameter);
++  t->description = safe_strdup (PgpMimeSignatureDescription);
+ 
+   return (a);
+ }

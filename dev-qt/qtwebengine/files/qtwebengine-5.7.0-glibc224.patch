@@ -1,0 +1,23 @@
+Submitted By: Ken Moffat <ken at linuxfromscratch dot org>
+Date: 2016-08-14
+Initial Package Version: 5.7.0
+Upstream Status: Applied
+Origin: Backported by fedora
+Description: Glibc-2.24 defined MADV_FREE for the first time.
+That breaks the version of google's sandbox used in qtwebengine,
+making qupzilla unusable.
+
+--- qt-everywhere-opensource-src-5.7.0/qtwebengine/src/3rdparty/chromium/third_party/WebKit/Source/wtf/PageAllocator.cpp.orig	2016-05-26 14:53:47.000000000 +0100
++++ qt-everywhere-opensource-src-5.7.0/qtwebengine/src/3rdparty/chromium/third_party/WebKit/Source/wtf/PageAllocator.cpp	2016-08-14 14:29:55.183172876 +0100
+@@ -39,6 +39,11 @@
+ 
+ #include <sys/mman.h>
+ 
++#if OS(LINUX) && defined(MADV_FREE)
++// Added in Linux 4.5, but we don't want to depend on 4.5 at runtime
++#undef MADV_FREE
++#endif
++
+ #ifndef MADV_FREE
+ #define MADV_FREE MADV_DONTNEED
+ #endif

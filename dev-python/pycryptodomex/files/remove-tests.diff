@@ -1,0 +1,130 @@
+--- setup.py	2016-08-27 22:42:54.932185104 -0400
++++ setup2.py	2016-08-27 23:09:01.083222326 -0400
+@@ -135,62 +135,6 @@
+             w(str(a))
+         w(kwd.get("end", "\n"))
+ 
+-
+-def test_compilation(program, extra_cc_options=None, extra_libraries=None):
+-    """Test if a certain C program can be compiled."""
+-
+-    # Create a temporary file with the C program
+-    fname = os.path.join("build", "test1.c")
+-    f = open(fname, 'w')
+-    f.write(program)
+-    f.close()
+-
+-    # Name for the temporary executable
+-    oname = os.path.join("build", "test1.out")
+-
+-    debug = False
+-    # Mute the compiler and the linker
+-    if not debug:
+-        old_stdout = os.dup(sys.stdout.fileno())
+-        old_stderr = os.dup(sys.stderr.fileno())
+-        dev_null = open(os.devnull, "w")
+-        os.dup2(dev_null.fileno(), sys.stdout.fileno())
+-        os.dup2(dev_null.fileno(), sys.stderr.fileno())
+-
+-    objects = []
+-    try:
+-        compiler = distutils.ccompiler.new_compiler()
+-
+-        if compiler.compiler_type in [ 'msvc' ]:
+-            # Force creation of the manifest file (http://bugs.python.org/issue16296)
+-            # as needed by VS2010
+-            extra_linker_options = [ "/MANIFEST" ]
+-        else:
+-            extra_linker_options = []
+-
+-        distutils.sysconfig.customize_compiler(compiler)
+-        objects = compiler.compile([fname], extra_postargs=extra_cc_options)
+-        compiler.link_executable(objects, oname, libraries=extra_libraries, extra_preargs=extra_linker_options)
+-        result = True
+-    except CCompilerError:
+-        result = False
+-    for f in objects + [fname, oname]:
+-        try:
+-            os.remove(f)
+-        except OSError:
+-            pass
+-
+-    # Restore stdout and stderr
+-    if not debug:
+-        if old_stdout is not None:
+-            os.dup2(old_stdout, sys.stdout.fileno())
+-        if old_stderr is not None:
+-            os.dup2(old_stderr, sys.stderr.fileno())
+-        if dev_null is not None:
+-            dev_null.close()
+-
+-    return result
+-
+ def change_module_name(file_name):
+     """Change any occurrance of 'Crypto' to 'Cryptodome'."""
+ 
+@@ -208,7 +152,6 @@
+     fd.write(content)
+     fd.close()
+ 
+-
+ def rename_crypto_dir(build_lib):
+     """Move all files from the 'Crypto' package to the
+     'Cryptodome' package in the given build directory"""
+@@ -281,12 +224,6 @@
+             return 0;
+         }
+         """
+-        if test_compilation(source):
+-            self.compiler.define_macro("HAVE_CPUID_H")
+-            return True
+-        else:
+-            return False
+-
+     def check_intrin_h(self):
+         # Windows
+         source = """
+@@ -298,37 +235,11 @@
+             return 0;
+         }
+         """
+-        if test_compilation(source):
+-            self.compiler.define_macro("HAVE_INTRIN_H")
+-            return True
+-        else:
+-            return False
+-
+-    def check_aesni(self):
+-
+-        source = """
+-        #include <wmmintrin.h>
+-        __m128i f(__m128i x, __m128i y) {
+-            return _mm_aesenc_si128(x, y);
+-        }
+-        int main(void) {
+-            return 0;
+-        }
+-        """
+-
+-        aes_mods = [ x for x in self.extensions if x.name in self.aesni_mod_names ]
+-        result = test_compilation(source)
+-        if not result:
+-            result = test_compilation(source, extra_cc_options=['-maes'])
+-            if result:
+-                for x in aes_mods:
+-                    x.extra_compile_args += ['-maes']
+-        return result
+ 
+     def detect_modules (self):
+ 
+         # Detect compiler support for CPUID instruction and AESNI
+-        if (self.check_cpuid_h() or self.check_intrin_h()) and self.check_aesni():
++        if (self.check_cpuid_h() or self.check_intrin_h()):
+             PrintErr("Compiling support for Intel AES instructions")
+         else:
+             PrintErr ("warning: no support for Intel AESNI instructions")
+@@ -601,3 +512,4 @@
+ 
+         ]
+ )
++

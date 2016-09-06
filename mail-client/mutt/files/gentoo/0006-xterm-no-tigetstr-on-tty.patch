@@ -1,0 +1,39 @@
+# HG changeset patch
+# User Richard Russon <rich@flatcap.org>
+# Date 1464576325 -3600
+#      Mon May 30 03:45:25 2016 +0100
+# Branch gentoo-1.7
+# Node ID 47e2a69c36ba9a5ee8ca46d14fa1c1333f7f33aa
+# Parent  e4765fbdfd9672ae99f9081f8dd0c7ed000c08cf
+[PATCH 06/11] xterm-no-tigetstr-on-tty
+From 3504bebae003784d97bb1621f9e9c960480d0c3d Mon Sep 17 00:00:00 2001
+user:        Fabian Groffen <grobian@gentoo.org>
+date:        Sun Oct 27 16:31:36 2013 +0100
+files:       curs_main.c
+description:
+xterm: check we're on a tty before calling tigetstr
+
+tigetstr appears to spinlock/hang when called without a tty, which is
+undesirable when mutt is ran from cron or ssh in a scripted fashion,
+e.g. to send mail.  Hence, abort early if stdout doesn't appear to be
+connected to a tty.
+Fixes https://bugs.gentoo.org/show_bug.cgi?id=432562
+---
+ curs_main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff -r e4765fbdfd96 -r 47e2a69c36ba curs_main.c
+--- a/curs_main.c	Mon May 30 03:44:08 2016 +0100
++++ b/curs_main.c	Mon May 30 03:45:25 2016 +0100
+@@ -152,6 +152,11 @@ short mutt_ts_capability(void)
+     NULL
+   };
+ 
++  /* check that we're actually having a tty, such that tigetstr doesn't
++   * hang/spinlock */
++  if (!isatty(1))
++    return 0;
++
+   /* If tsl is set, then terminfo says that status lines work. */
+   tcaps = tigetstr("tsl");
+   if (tcaps && tcaps != (char *)-1 && *tcaps)
