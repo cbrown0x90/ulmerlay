@@ -24,7 +24,7 @@ Overlay for modified packages.  Most of these are because Gentoo packages are ou
   * games-emulation/mednafen
   * media-libs/audiofile
 
-###Official ebuild missing features###
+###Added missing features###
   * media-sound/kid3
   * net-misc/livestreamer
 
