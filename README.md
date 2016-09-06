@@ -15,6 +15,7 @@ Overlay for modified packages.  Most of these are because Gentoo packages are ou
   * dev-python/validictory
   * media-plugins/mopidy-gmusic
   * media-sound/mopidy
+
 ###GCC 6 compatibility###
   * dev-qt/qtscript
   * dev-qt/qtwebkit
@@ -22,11 +23,14 @@ Overlay for modified packages.  Most of these are because Gentoo packages are ou
   * dev-util/ragel
   * games-emulation/mednafen
   * media-libs/audiofile
+
 ###Official ebuild missing features###
   * media-sound/kid3
   * net-misc/livestreamer
+
 ###Misc dependencies###
   * dev-libs/protobuf
   * net-libs/gulp
+
 ###Suckless builds###
   * x11-terms/st
