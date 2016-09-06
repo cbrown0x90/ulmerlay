@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit cmake-utils readme.gentoo systemd git-r3
+inherit cmake-utils readme.gentoo-r1 systemd git-r3
 
 DESCRIPTION="simple fan control program for thinkpads"
 HOMEPAGE="github.com/vmatare/thinkfan"
@@ -37,9 +37,6 @@ src_install() {
 
 	newinitd ${FILESDIR}/${PN}-openrc ${PN}
 
-#	doman ${PN}.1
-#	dodoc ChangeLog NEWS README \
-#		examples/${PN}.conf.{complex,simple}
 	readme.gentoo_create_doc
 }
 
