@@ -4,7 +4,7 @@
 
 EAPI=6
 # pypy fails tests; pypy3 fails even running tests
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 inherit distutils-r1
 
