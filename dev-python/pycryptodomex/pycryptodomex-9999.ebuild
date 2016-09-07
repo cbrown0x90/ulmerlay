@@ -1,5 +1,5 @@
 EAPI=5
-PYTHON_COMPAT=(python2_7)
+PYTHON_COMPAT=(python2_7 python3_{4,5})
 
 inherit git-r3 distutils-r1
 
@@ -12,8 +12,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND=""
-DEPEND=""
+DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
+RDEPEND="dev-libs/gmp"
 
 src_prepare() {
 	epatch "${FILESDIR}"/remove-tests.diff
