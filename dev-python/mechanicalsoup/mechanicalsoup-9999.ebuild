@@ -1,5 +1,5 @@
 EAPI=5
-PYTHON_COMPAT=(python2_7)
+PYTHON_COMPAT=(python2_7 python3_{4,5})
 
 inherit git-r3 distutils-r1
 
@@ -12,10 +12,11 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND=""
-
-DEPEND="
-	dev-python/setuptools[${PYTHON_USEDEP}]
+RDEPEND="
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]"
+
+DEPEND="
+	${RDEPEND}
+	dev-python/setuptools[${PYTHON_USEDEP}]"

@@ -1,5 +1,5 @@
 EAPI=5
-PYTHON_COMPAT=(python2_7)
+PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 inherit git-r3 distutils-r1
 
@@ -7,12 +7,13 @@ DESCRIPTION="An unofficial client library for Google Music"
 HOMEPAGE="https://unofficial-google-music-api.readthedocs.io"
 EGIT_REPO_URI="https://github.com/simon-weber/gmusicapi"
 
-LICENSE="Apache-2.0"
+LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64 ~amd64"
 IUSE=""
 
-RDEPEND="dev-python/requests[${PYTHON_USEDEP}]
+RDEPEND="
+	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/decorator[${PYTHON_USEDEP}]
 	media-libs/mutagen[${PYTHON_USEDEP}]
 	dev-python/validictory[${PYTHON_USEDEP}]
@@ -31,4 +32,5 @@ RDEPEND="dev-python/requests[${PYTHON_USEDEP}]
 	=dev-python/protobuf-python-3.0.0_beta2[${PYTHON_USEDEP}]"
 
 DEPEND="
+	${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"
