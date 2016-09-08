@@ -15,7 +15,9 @@ IUSE=""
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND="dev-libs/gmp"
 
+PATCHES=("${FILESDIR}/${PN}-remove-tests.patch")
+
 src_prepare() {
-	epatch "${FILESDIR}"/remove-tests.diff
 	touch .separate_namespace
+	epatch ${PATCHES}
 }
