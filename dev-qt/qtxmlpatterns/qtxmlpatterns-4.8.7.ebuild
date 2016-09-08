@@ -13,9 +13,7 @@ fi
 
 IUSE=""
 
-DEPEND="
-	~dev-qt/qtcore-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-"
+DEPEND="~dev-qt/qtcore-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 QT4_TARGET_DIRECTORIES="
@@ -26,9 +24,7 @@ QT4_TARGET_DIRECTORIES="
 QCONFIG_ADD="xmlpatterns"
 QCONFIG_DEFINE="QT_XMLPATTERNS"
 
-src_prepare() {
-	epatch ${FILESDIR}/${P}-gcc6.patch
-}
+PATCHES=("${FILESDIR}/${P}-gcc6.patch")
 
 multilib_src_configure() {
 	local myconf=(
