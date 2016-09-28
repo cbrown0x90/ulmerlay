@@ -3,18 +3,13 @@ Overlay for modified packages.  Most of these are because Gentoo packages are ou
 
 ###Bleeding edge###
   * www-client/qutebrowser
-  * www-plugins/pdfjs
   * x11-misc/j4-dmenu-desktop
   * app-laptop/thinkfan
   * dev-python/gmusicapi
-  * dev-python/gpsoauth
-  * dev-python/mechanicalsoup
-  * dev-python/proboscis
-  * dev-python/protobuf-python
-  * dev-python/pycryptodomex
-  * dev-python/validictory
   * media-plugins/mopidy-gmusic
   * media-sound/mopidy
+  * media-gfx/easypaint
+  * media-fonts/noto-emoji
 
 ###GCC 6 compatibility###
   * dev-qt/qtscript
@@ -23,14 +18,21 @@ Overlay for modified packages.  Most of these are because Gentoo packages are ou
   * dev-util/ragel
   * games-emulation/mednafen
   * media-libs/audiofile
+  * sys-devel/gdb
 
 ###Added missing features###
-  * media-sound/kid3
-  * net-misc/livestreamer
+  * media-sound/kid3 (qt5)
+  * net-misc/livestreamer (Python3.5)
+  * sys-apps/openrc (runit instead of sysvinit)
 
-###Misc dependencies###
+###Dependencies###
   * dev-libs/protobuf
-  * net-libs/gulp
+  * dev-python/gpsoauth
+  * dev-python/mechanicalsoup
+  * dev-python/proboscis
+  * dev-python/protobuf-python
+  * dev-python/pycryptodomex
+  * dev-python/validictory
 
 ###Suckless builds###
   * x11-terms/st
