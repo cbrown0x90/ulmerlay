@@ -6,7 +6,7 @@ EAPI=5
 
 inherit font git-r3
 
-DESCRIPTION="Color and Black-and-White Noto Emoji fonts by Google"
+DESCRIPTION="Color Noto Emoji fonts by Google"
 HOMEPAGE="http://www.google.com/get/noto/
 	https://github.com/googlei18n/noto-emoji"
 EGIT_REPO_URI="https://github.com/googlei18n/noto-emoji"
@@ -15,16 +15,18 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=""
+DEPEND="|| ( app-arch/zopfli media-gfx/optipng )
+		dev-python/nototools
+		dev-python/fonttools[python_targets_python2_7]
+		media-gfx/imagemagick[svg]"
 RDEPEND=""
 
-FONT_SUFFIX="ttf"
-FONT_S=${S}
+src_prepare() {
+	sed -i 's/python/python2.7/g' ${WORKDIR}/${P}/Makefile
+	sed -i 's/python/python2.7/g' ${WORKDIR}/${P}/*.py
+}
 
-src_compile() {
-
-		fontfile="${WORKDIR}/${P}/fonts/NotoEmoji-Regular.ttf"
-		newname=$(basename "${WORKDIR}/${P}/fonts/NotoEmoji-Regular.ttf")
-		newname=${newname/"${P}"/"NotoEmoji.ttf"}
-		cp "${fontfile}" "${FONT_S}/${newname}"
+src_install() {
+	mkdir -p ${D}/usr/share/fonts/noto-emoji/
+	cp ${WORKDIR}/${P}/NotoColorEmoji.ttf ${D}/usr/share/fonts/noto-emoji/
 }
