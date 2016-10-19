@@ -17,8 +17,9 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="|| ( app-arch/zopfli media-gfx/optipng )
 		dev-python/nototools
-		dev-python/fonttools[python_targets_python2_7]
-		media-gfx/imagemagick[svg]"
+		=dev-python/fonttools-9999[python_targets_python2_7]
+		media-gfx/imagemagick[png]
+		x11-libs/cairo"
 RDEPEND=""
 
 src_prepare() {
