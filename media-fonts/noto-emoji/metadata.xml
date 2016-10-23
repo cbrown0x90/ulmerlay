@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>cebrown5597@gmail.com</email>
+    <name>Christopher Brown</name>
+  </maintainer>
+  <longdescription>
+    Color and Black-and-White Noto emoji fonts, and tools for working with
+    them. The color version must be built from source.
+  </longdescription>
+</pkgmetadata>

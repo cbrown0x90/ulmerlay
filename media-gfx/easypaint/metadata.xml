@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>cebrown5597@gmail.com</email>
+    <name>Christopher Brown</name>
+  </maintainer>
+  <longdescription>
+    EasyPaint is a simple graphics painting program
+    EasyPaint is a part of QtDesktop project.
+    EasyPaint is a part of Razor-qt's 3rd party applications.
+  </longdescription>
+</pkgmetadata>
