@@ -1,1 +1,0 @@
-/home/chris/Documents/suckless-builds/st/config.h
