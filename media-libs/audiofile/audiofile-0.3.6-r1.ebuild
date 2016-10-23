@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -17,15 +17,15 @@ IUSE="flac static-libs test"
 
 RDEPEND="flac? ( >=media-libs/flac-1.2.1[${MULTILIB_USEDEP}] )
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-soundlibs-20130224-r1
-					!app-emulation/emul-linux-x86-soundlibs[-abi_x86_32(-)] )"
+				  !app-emulation/emul-linux-x86-soundlibs[-abi_x86_32(-)] )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	test? ( dev-cpp/gtest[${MULTILIB_USEDEP}] )"
 
 DOCS=( ACKNOWLEDGEMENTS AUTHORS ChangeLog NEWS NOTES README TODO )
 
-PATCHES=( "${FILESDIR}"/${P}-system-gtest.patch
-		  ${FILESDIR}/cast-to-unsigned-gcc6.patch)
+PATCHES=( "${FILESDIR}/${P}-system-gtest.patch"
+		  "${FILESDIR}/cast-to-unsigned-gcc6.patch" )
 
 src_configure() {
 	local myeconfargs=(

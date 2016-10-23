@@ -1,3 +1,7 @@
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
 EAPI=5
 PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
@@ -9,7 +13,7 @@ EGIT_REPO_URI="https://github.com/simon-weber/gmusicapi"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 ~amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="

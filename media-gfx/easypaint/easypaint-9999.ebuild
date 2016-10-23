@@ -22,17 +22,10 @@ RDEPEND="dev-qt/qtcore:5
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	cd ${WORKDIR}/easypaint-9999/sources
-	lrelease easypaint.pro
-	eqmake5
-}
-
-src_compile() {
-	cd ${WORKDIR}/easypaint-9999/sources
-	emake
+	lrelease sources/easypaint.pro
+	eqmake5 sources
 }
 
 src_install() {
-	cd ${WORKDIR}/easypaint-9999/sources
-	emake INSTALL_ROOT="${D}" install
+	emake sources INSTALL_ROOT="${D}" install
 }

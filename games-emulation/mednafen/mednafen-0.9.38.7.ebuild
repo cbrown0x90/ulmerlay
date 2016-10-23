@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -29,21 +29,17 @@ DEPEND="${RDEPEND}
 
 S=${WORKDIR}/${PN}
 
+PATCHES=("${FILESDIR}/${P}-localedir.patch"
+		 "${FILESDIR}/${P}-zlib.patch"
+		 "${FILESDIR}/${P}-cflags.patch"
+		 "${FILESDIR}/${P}-gcc6.patch")
+
 pkg_pretend() {
 	if has ccache ${FEATURES} ; then
 		ewarn
 		ewarn "If you experience build failure, try turning off ccache in FEATURES."
 		ewarn
 	fi
-}
-
-src_prepare() {
-	epatch \
-		"${FILESDIR}"/${P}-localedir.patch \
-		"${FILESDIR}"/${P}-zlib.patch \
-		"${FILESDIR}"/${P}-cflags.patch \
-		"${FILESDIR}"/${P}-gcc6.patch
-	eautoreconf
 }
 
 src_configure() {

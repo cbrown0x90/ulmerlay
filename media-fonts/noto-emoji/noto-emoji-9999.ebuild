@@ -13,7 +13,7 @@ EGIT_REPO_URI="https://github.com/googlei18n/noto-emoji"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 DEPEND="|| ( app-arch/zopfli media-gfx/optipng )
 		dev-python/nototools
@@ -23,11 +23,11 @@ DEPEND="|| ( app-arch/zopfli media-gfx/optipng )
 RDEPEND=""
 
 src_prepare() {
-	sed -i 's/python/python2.7/g' ${WORKDIR}/${P}/Makefile
-	sed -i 's/python/python2.7/g' ${WORKDIR}/${P}/*.py
+	sed -i 's/python/python2.7/g' "${WORKDIR}/${P}/Makefile"
+	sed -i 's/python/python2.7/g' "${WORKDIR}/${P}/*.py"
 }
 
 src_install() {
-	mkdir -p ${D}/usr/share/fonts/noto-emoji/
-	cp ${WORKDIR}/${P}/NotoColorEmoji.ttf ${D}/usr/share/fonts/noto-emoji/
+	mkdir -p "${D}/usr/share/fonts/noto-emoji/"
+	cp "${WORKDIR}/${P}/NotoColorEmoji.ttf" "${D}/usr/share/fonts/noto-emoji/"
 }

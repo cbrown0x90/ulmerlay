@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,11 +12,10 @@ EGIT_REPO_URI="git://github.com/enkore/j4-dmenu-desktop.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
+KEYWORDS="~amd64"
 
-DEPEND=""
-RDEPEND="x11-misc/dmenu"
+DEPEND="x11-misc/dmenu"
+RDEPEND="${DEPEND}"
 
 src_configure() {
 	local mycmakeargs=(

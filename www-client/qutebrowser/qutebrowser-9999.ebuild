@@ -5,22 +5,17 @@
 EAPI=6
 PYTHON_COMPAT=( python{3_4,3_5} )
 
-inherit gnome2-utils distutils-r1 eutils fdo-mime
-
-if [[ ${PV} == "9999" ]] ; then
-	EGIT_REPO_URI="https://github.com/The-Compiler/qutebrowser.git"
-	inherit git-r3
-else
-	SRC_URI="https://github.com/The-Compiler/${PN}/releases/download/v${PV}/${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
-fi
+inherit gnome2-utils distutils-r1 eutils fdo-mime git-r3
 
 DESCRIPTION="A keyboard-driven, vim-like browser based on PyQt5 and QtWebKit"
 HOMEPAGE="http://www.qutebrowser.org/ https://github.com/The-Compiler/qutebrowser"
+EGIT_REPO_URI="https://github.com/The-Compiler/qutebrowser.git"
+
+KEYWORDS="~amd64"
 
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="gstreamer pdf webengine test"
+IUSE="gstreamer test"
 
 COMMON_DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 DEPEND="${COMMON_DEPEND}
@@ -32,18 +27,13 @@ RDEPEND="${COMMON_DEPEND}
 	>=dev-python/pypeg2-2.15.2[${PYTHON_USEDEP}]
 	dev-python/PyQt5[${PYTHON_USEDEP},gui,network,printsupport,webkit,webengine,webchannel,widgets]
 	>=dev-python/pyyaml-3.11[${PYTHON_USEDEP}]
-	webengine? ( dev-qt/qtwebengine[widgets] )
-	gstreamer? ( dev-qt/qtwebkit:5[gstreamer] )
-	pdf? ( www-plugins/pdfjs )
-"
+	dev-qt/qtwebengine[widgets]
+	gstreamer? ( dev-qt/qtwebkit:5[gstreamer] )"
 
 RESTRICT="test"
 
 python_compile_all() {
-	if [[ ${PV} == "9999" ]]; then
-		"${PYTHON}" scripts/asciidoc2html.py || die "Failed generating docs"
-	fi
-
+	"${PYTHON}" scripts/asciidoc2html.py || die "Failed generating docs"
 	a2x -f manpage doc/${PN}.1.asciidoc || die "Failed generating man page"
 }
 

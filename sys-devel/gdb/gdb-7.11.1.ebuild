@@ -93,7 +93,7 @@ src_prepare() {
 	[[ -n ${RPM} ]] && rpm_spec_epatch "${WORKDIR}"/gdb.spec
 	! use vanilla && [[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/patch
 	epatch_user
-	epatch ${FILESDIR}/fix-regex.patch
+	epatch "${FILESDIR}/fix-regex.patch"
 	strip-linguas -u bfd/po opcodes/po
 }
 

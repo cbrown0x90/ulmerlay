@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -23,9 +23,7 @@ RESTRICT=test
 
 DOCS=( ChangeLog CREDITS README TODO )
 
-src_prepare() {
-	epatch ${FILESDIR}/${P}-gcc6.patch
-}
+PATCHES=("${FILESDIR}/${P}-gcc6.patch")
 
 src_test() {
 	cd "${S}"/test

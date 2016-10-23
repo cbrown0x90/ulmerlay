@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -13,9 +13,7 @@ fi
 
 IUSE="+jit"
 
-DEPEND="
-	~dev-qt/qtcore-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-"
+DEPEND="~dev-qt/qtcore-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 QT4_TARGET_DIRECTORIES="src/script"
@@ -23,8 +21,8 @@ QT4_TARGET_DIRECTORIES="src/script"
 QCONFIG_ADD="script"
 QCONFIG_DEFINE="QT_SCRIPT"
 
-PATCHES=( "${FILESDIR}/4.8.6-javascriptcore-x32.patch"
-		  "${FILESDIR}/${P}-gcc6.patch" )
+PATCHES=("${FILESDIR}/4.8.6-javascriptcore-x32.patch"
+		 "${FILESDIR}/${P}-gcc6.patch")
 
 multilib_src_configure() {
 	local myconf=(

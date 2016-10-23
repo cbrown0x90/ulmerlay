@@ -1,3 +1,7 @@
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
 EAPI=5
 PYTHON_COMPAT=(python2_7 python3_{4,5})
 
@@ -14,7 +18,7 @@ IUSE=""
 
 RDEPEND="
 	dev-python/requests[${PYTHON_USEDEP}]
-	dev-python/beautifulsoup[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]"
 
 DEPEND="
