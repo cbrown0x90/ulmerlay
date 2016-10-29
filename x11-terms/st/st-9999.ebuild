@@ -8,7 +8,6 @@ inherit git-r3
 DESCRIPTION="simple terminal implementation for X"
 HOMEPAGE="http://st.suckless.org/"
 EGIT_REPO_URI="git://git.suckless.org/st"
-SRC_URI="http://raw.githubusercontent.com/free-city-of-ulm/suckless-builds/master/st/config.h"
 
 LICENSE="MIT-with-advertising"
 SLOT="0"
@@ -31,6 +30,6 @@ PATCHES=( "${FILESDIR}/1-st-scrollback.diff"
 		  "${FILESDIR}/4-alpha.patch" )
 
 src_prepare() {
-	cp -Lv "${DISTDIR}/config.h" .
+	cp -Lv "${FILESDIR}/config.h" .
 	epatch ${PATCHES[@]}
 }
