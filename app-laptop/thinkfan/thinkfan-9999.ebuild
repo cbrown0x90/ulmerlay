@@ -18,10 +18,10 @@ IUSE="atasmart"
 DEPEND="atasmart? ( dev-libs/libatasmart )"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	sed -e '/^set(CMAKE_C_FLAGS/d' \
-		-i CMakeLists.txt || die
-}
+#rc_prepare() {
+#	sed -e '/^set(CMAKE_C_FLAGS/d' \
+#		-i CMakeLists.txt || die
+#}
 
 src_configure() {
 	mycmakeargs+=(
@@ -31,14 +31,3 @@ src_configure() {
 
 	cmake-utils_src_configure
 }
-
-src_install() {
-	dosbin "${BUILD_DIR}"/${PN}
-
-	newinitd "${FILESDIR}/${PN}-openrc ${PN}"
-
-	readme.gentoo_create_doc
-}
-
-DOC_CONTENTS="Please read the documentation and copy an
-appropriate file to /etc/thinkfan.conf."
