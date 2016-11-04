@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>cebrown5597@gmail.com</email>
+		<name>Christopher Brown</name>
+	</maintainer>
+	<use>
+        <flag name="hackertyper">include hackertyper bash script</flag>
+        <flag name="256color">include bash script to print 256color</flag>
+        <flag name="3spooky">include 3spooky lua script</flag>
+        <flag name="pipes">include the class pipes bash script</flag>
+        <flag name="hackexe">include hack.exe binary to pretend hack websites</flag>
+	</use>
+</pkgmetadata>
