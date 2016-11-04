@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit cmake-utils readme.gentoo-r1 systemd git-r3
+inherit cmake-utils git-r3
 
 DESCRIPTION="simple fan control program for thinkpads"
 HOMEPAGE="github.com/vmatare/thinkfan"
@@ -17,11 +17,6 @@ IUSE="atasmart"
 
 DEPEND="atasmart? ( dev-libs/libatasmart )"
 RDEPEND="${DEPEND}"
-
-#rc_prepare() {
-#	sed -e '/^set(CMAKE_C_FLAGS/d' \
-#		-i CMakeLists.txt || die
-#}
 
 src_configure() {
 	mycmakeargs+=(
