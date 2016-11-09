@@ -8,11 +8,9 @@ PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 inherit distutils-r1
 
-MY_PV=${PV/_beta2/-beta-2}
-
 DESCRIPTION="Google's Protocol Buffers - official Python bindings"
 HOMEPAGE="https://github.com/google/protobuf/ https://developers.google.com/protocol-buffers/"
-SRC_URI="https://github.com/google/protobuf/archive/v${MY_PV}.tar.gz -> protobuf-${PV}.tar.gz"
+SRC_URI="https://github.com/google/protobuf/archive/v${PV}.tar.gz -> protobuf-${PV}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0/10"
@@ -25,10 +23,10 @@ IUSE=""
 RDEPEND="${PYTHON_DEPS}
 	!<dev-libs/protobuf-3[python(-)]"
 DEPEND="${RDEPEND}
-	=dev-libs/protobuf-3.0.0_beta2
+	=dev-libs/protobuf-3.0.0
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]"
-S="${WORKDIR}/protobuf-${MY_PV}/python"
+S="${WORKDIR}/protobuf-${PV}/python"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 PATCHES=( "${FILESDIR}/protobuf-${PV}-link-against-installed-lib.patch" )
 

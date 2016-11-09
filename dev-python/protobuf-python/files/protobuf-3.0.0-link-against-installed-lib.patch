@@ -1,10 +1,9 @@
-diff -Naur python/setup.py python/setup.py
---- python/setup.py	2015-12-30 22:21:46.000000000 +0100
-+++ python/setup.py	2016-04-18 00:51:49.490809789 +0200
-@@ -169,14 +169,26 @@
+--- a/setup.py	2016-07-27 17:40:30.000000000 -0400
++++ b/setup.py	2016-11-09 09:21:44.402658166 -0500
+@@ -192,15 +192,27 @@
        extra_compile_args.append('-Werror')
        sys.argv.remove(warnings_as_errors)
- 
+
 +    inclD = ['.', '../src']
 +    libD = []
 +    try:
@@ -18,15 +17,16 @@ diff -Naur python/setup.py python/setup.py
 +        warn("Running pkg-config failed - %s." % osexception)
 +      libD = ['../src/.libs']
      # C++ implementation extension
-     ext_module_list.append(
+     ext_module_list.extend([
          Extension(
              "google.protobuf.pyext._message",
              glob.glob('google/protobuf/pyext/*.cc'),
 -            include_dirs=[".", "../src"],
 +            include_dirs=inclD,
-             libraries=['protobuf'],
+             libraries=libraries,
+             extra_objects=extra_objects,
 -            library_dirs=['../src/.libs'],
 +            library_dirs=libD,
              extra_compile_args=extra_compile_args,
-         )
-     )
+         ),
+         Extension(

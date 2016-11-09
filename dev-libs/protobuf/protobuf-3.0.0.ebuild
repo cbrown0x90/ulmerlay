@@ -7,13 +7,9 @@ EAPI=6
 PYTHON_COMPAT=( python2_7 python3_3 python3_4 python3_5 )
 inherit python-r1 autotools flag-o-matic toolchain-funcs elisp-common multilib-minimal
 
-# If you bump this package, also consider bumping the official language bindings!
-# At the current time these are java and python.
-MY_PV=${PV/_beta2/-beta-2}
-
 DESCRIPTION="Google's Protocol Buffers -- an efficient method of encoding structured data"
 HOMEPAGE="https://github.com/google/protobuf/ https://developers.google.com/protocol-buffers/"
-SRC_URI="https://github.com/google/protobuf/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/google/protobuf/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0/10"
@@ -26,10 +22,10 @@ DEPEND="emacs? ( virtual/emacs )
 # This is provided for backwards compatibility due to (likely incorrect) use in consumers.
 PDEPEND="java? ( dev-java/protobuf-java )
 	python? ( dev-python/protobuf-python[${PYTHON_USEDEP}] )"
-S="${WORKDIR}/${PN}-${MY_PV}"
+S="${WORKDIR}/${P}"
 PATCHES=( "${FILESDIR}/${PN}-2.5.0-emacs-24.4.patch"
 	"${FILESDIR}/${PN}-2.6.1-protoc-cmdline.patch"
-	"${FILESDIR}/${P}-disable-local-gmock.patch" )
+	"${FILESDIR}/${PN}-3.0.0-disable-local-gmock.patch" )
 
 src_prepare() {
 	append-cxxflags -DGOOGLE_PROTOBUF_NO_RTTI
