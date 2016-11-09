@@ -33,7 +33,7 @@ RDEPEND="
 	dev-python/pyasn1[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]
 	dev-python/future[${PYTHON_USEDEP}]
-	=dev-python/protobuf-python-3.0.0_beta2[${PYTHON_USEDEP}]"
+	=dev-python/protobuf-python-3.0.0[${PYTHON_USEDEP}]"
 
 DEPEND="
 	${RDEPEND}
