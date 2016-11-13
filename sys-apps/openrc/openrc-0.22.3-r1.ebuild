@@ -14,7 +14,7 @@ if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd"
 fi
 
 LICENSE="BSD-2"
@@ -45,7 +45,7 @@ DEPEND="${COMMON_DEPEND}
 	ncurses? ( virtual/pkgconfig )"
 RDEPEND="${COMMON_DEPEND}
 	!prefix? (
-		kernel_linux? ( || ( >=sys-apps/sysvinit-2.86-r6 >=sys-process/runit-2.1.2-r1 ) )
+		kernel_linux? ( || ( >=sys-apps/sysvinit-2.86-r6 >=sys-process/runit-2.1.2 ) )
 		kernel_FreeBSD? ( sys-freebsd/freebsd-sbin )
 	)
 	selinux? (
