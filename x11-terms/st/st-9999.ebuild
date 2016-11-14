@@ -30,6 +30,18 @@ PATCHES=( "${FILESDIR}/1-st-scrollback.diff"
 		  "${FILESDIR}/4-alpha.patch" )
 
 src_prepare() {
-	cp -Lv "${FILESDIR}/config.h" .
 	epatch ${PATCHES[@]}
+
+	sed -e '/^CFLAGS/s:[[:space:]]-Wall[[:space:]]: :' \
+		-e '/^CFLAGS/s:[[:space:]]-O[^[:space:]]*[[:space:]]: :' \
+		-e '/^LDFLAGS/{s:[[:space:]]-s[[:space:]]: :}' \
+		-e '/^X11INC/{s:/usr/X11R6/include:/usr/include/X11:}' \
+		-e "/^X11LIB/{s:/usr/X11R6/lib:/usr/$(get_libdir)/X11:}" \
+		-i config.mk || die
+	sed -e '/@echo/!s:@::' \
+		-e '/tic/d' \
+		-i Makefile || die
+	tc-export CC
+
+	cp -v "${FILESDIR}/config.h" .
 }
