@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>cebrown5597@gmail.com</email>
+    <name>Christopher Brown</name>
+  </maintainer>
+  <longdescription>
+    A color and black and white  emoji SVGinOT font built from EmojiOne artwork
+    with support for ZWJ, skin tone diversity and country flags.
+
+    The font works in all operating systems, but will currently only show color
+    emoji in Firefox, Thunderbird and other Mozilla Gecko-based applications.
+    This is not a limitation of the font, but of the operating systems and
+    applications. Regular black and white outline emoji are included for
+    backwards/fallback compatibility.
+  </longdescription>
+</pkgmetadata>
