@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>cebrown5597@gmail.com</email>
+    <name>Christopher Brown</name>
+  </maintainer>
+  <longdescription>
+    This is an implementation of YAML, a human friendly data serialization
+    language. Started as PyYAML port, it was completely rewritten from scratch.
+    Now it's very fast, and supports 1.2 spec.
+  </longdescription>
+</pkgmetadata>

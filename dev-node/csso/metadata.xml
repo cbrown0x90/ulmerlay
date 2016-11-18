@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>cebrown5597@gmail.com</email>
+    <name>Christopher Brown</name>
+  </maintainer>
+  <longdescription>
+    CSSO (CSS Optimizer) is a CSS minifier. It performs three sort of
+    transformations: cleaning (removing redundant), compression (replacement
+    for shorter form) and restructuring (merge of declarations, rulesets and
+    so on). As a result your CSS becomes much smaller.
+  </longdescription>
+</pkgmetadata>
