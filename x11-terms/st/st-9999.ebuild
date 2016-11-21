@@ -3,7 +3,7 @@
 # $Id$
 
 EAPI=5
-inherit git-r3
+inherit git-r3 savedconfig
 
 DESCRIPTION="simple terminal implementation for X"
 HOMEPAGE="http://st.suckless.org/"
@@ -12,6 +12,7 @@ EGIT_REPO_URI="git://git.suckless.org/st"
 LICENSE="MIT-with-advertising"
 SLOT="0"
 KEYWORDS="~amd64 ~hppa ~x86"
+IUSE="savedconfig"
 
 RDEPEND=">=sys-libs/ncurses-6.0:0=
 	media-libs/fontconfig
@@ -43,5 +44,14 @@ src_prepare() {
 		-i Makefile || die
 	tc-export CC
 
-	cp -v "${FILESDIR}/config.h" .
+	restore_config config.h
+}
+
+pkg_postinst() {
+	if ! [[ "${REPLACING_VERSIONS}" ]]; then
+		elog "Please ensure a usable font is installed, like"
+		elog "    media-fonts/corefonts"
+		elog "    media-fonts/dejavu"
+		elog "    media-fonts/urw-fonts"
+	fi
 }
