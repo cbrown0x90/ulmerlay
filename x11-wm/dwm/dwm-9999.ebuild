@@ -3,7 +3,7 @@
 # $Id$
 
 EAPI=5
-inherit git-r3
+inherit git-r3 savedconfig
 
 DESCRIPTION="a dynamic window manager for X11"
 HOMEPAGE="http://dwm.suckless.org/"
@@ -43,7 +43,7 @@ src_prepare() {
 		-e 's|@${CC}|$(CC)|g' \
 		Makefile || die
 
-	cp -v "${FILESDIR}/config.h" .
+	restore_config config.h
 }
 
 src_configure() {
@@ -53,4 +53,18 @@ src_configure() {
 			-e "s/XINERAMAFLAGS =/#XINERAMAFLAGS =/" \
 			config.mk || die
 	fi
+}
+
+pkg_postinst() {
+	einfo "This ebuild has support for user defined configs"
+	einfo "Please read this ebuild for more details and re-emerge as needed"
+	einfo "if you want to add or remove functionality for ${PN}"
+	if ! has_version x11-misc/dmenu; then
+		elog "Installing ${PN} without x11-misc/dmenu"
+		einfo "To have a menu you can install x11-misc/dmenu"
+	fi
+	einfo "You can custom status bar with a script in HOME/.dwm/dwmrc"
+	einfo "the ouput is redirected to the standard input of dwm"
+	einfo "Since dwm-5.4, status info in the bar must be set like this:"
+	einfo "xsetroot -name \"\`date\` \`uptime | sed 's/.*,//'\`\""
 }
