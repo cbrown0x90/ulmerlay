@@ -10,8 +10,8 @@ static const char col_gray_dark[]       = "#222222";
 static const char col_gray_light[]       = "#bbbbbb";
 static const char *colors[SchemeLast][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray_light, col_gray_dark, col_gray_light },
-	[SchemeSel] =  { col_gray_dark, col_gray_light,  col_gray_dark },
+	[SchemeNorm] = { col_gray_light, col_gray_dark, col_gray_dark },
+	[SchemeSel] =  { col_gray_dark, col_gray_light,  col_gray_light },
 };
 
 /* tagging */
