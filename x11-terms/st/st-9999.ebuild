@@ -12,7 +12,6 @@ EGIT_REPO_URI="git://git.suckless.org/st"
 LICENSE="MIT-with-advertising"
 SLOT="0"
 KEYWORDS="~amd64 ~hppa ~x86"
-IUSE="savedconfig"
 
 RDEPEND=">=sys-libs/ncurses-6.0:0=
 	media-libs/fontconfig
