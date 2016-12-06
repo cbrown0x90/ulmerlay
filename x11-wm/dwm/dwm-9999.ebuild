@@ -20,12 +20,11 @@ RDEPEND="x11-libs/libX11
 DEPEND="${RDEPEND}
 		xinerama? ( x11-proto/xineramaproto )"
 
-PATCHES=( "${FILESDIR}/1-dwm-6.1-better-borders.diff"
-		  "${FILESDIR}/2-movestack-5.8.2.diff"
-		  "${FILESDIR}/3-dwm-6.1-hide_vacant_tags.diff"
-		  "${FILESDIR}/4-dwm-6.1-attachaside-tagfix.diff"
-		  "${FILESDIR}/5-dwm-20160731-statusallmons.diff"
-		  "${FILESDIR}/6-removerect.diff" )
+PATCHES=( "${FILESDIR}/1-movestack-5.8.2.diff"
+		  "${FILESDIR}/2-dwm-6.1-hide_vacant_tags.diff"
+		  "${FILESDIR}/3-dwm-6.1-attachaside-tagfix.diff"
+		  "${FILESDIR}/4-dwm-20160731-statusallmons.diff"
+		  "${FILESDIR}/5-removerect.diff" )
 
 src_prepare() {
 	epatch ${PATCHES[@]}
