@@ -14,7 +14,7 @@ if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd"
 fi
 
 LICENSE="BSD-2"
@@ -45,7 +45,11 @@ DEPEND="${COMMON_DEPEND}
 	ncurses? ( virtual/pkgconfig )"
 RDEPEND="${COMMON_DEPEND}
 	!prefix? (
-		kernel_linux? ( || ( >=sys-apps/sysvinit-2.86-r6 >=sys-process/runit-2.1.2 ) )
+		kernel_linux? (
+			|| ( >=sys-apps/sysvinit-2.86-r6
+				 sys-process/runit )
+			virtual/tmpfiles
+		)
 		kernel_FreeBSD? ( sys-freebsd/freebsd-sbin )
 	)
 	selinux? (
@@ -57,15 +61,14 @@ RDEPEND="${COMMON_DEPEND}
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
 src_prepare() {
+	default
+
 	sed -i 's:0444:0644:' mk/sys.mk || die
 
 	if [[ ${PV} == "9999" ]] ; then
 		local ver="git-${EGIT_VERSION:0:6}"
 		sed -i "/^GITVER[[:space:]]*=/s:=.*:=${ver}:" mk/gitver.mk || die
 	fi
-
-	# Allow user patches to be applied without modifying the ebuild
-	eapply_user
 }
 
 src_compile() {
