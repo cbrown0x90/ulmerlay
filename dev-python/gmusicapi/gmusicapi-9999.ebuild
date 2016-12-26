@@ -17,6 +17,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="
+	media-video/ffmpeg[gpl,openssl,mp3,encode]
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/decorator[${PYTHON_USEDEP}]
 	media-libs/mutagen[${PYTHON_USEDEP}]
