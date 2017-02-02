@@ -21,5 +21,4 @@ RDEPEND="dev-libs/gmp"
 
 src_prepare() {
 	touch .separate_namespace
-	epatch "${FILESDIR}/${PN}-remove-tests.patch"
 }
