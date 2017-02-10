@@ -3,8 +3,7 @@
 # $Id$
 
 EAPI=6
-
-KDE_HANDBOOK="optional"
+inherit cmake-utils
 
 DESCRIPTION="Simple tag editor based on Qt"
 HOMEPAGE="http://kid3.sourceforge.net/"
@@ -17,14 +16,6 @@ IUSE="acoustid flac mp3 mp4 +taglib vorbis"
 
 REQUIRED_USE="flac? ( vorbis )"
 
-	#kde? (
-	#	$(add_frameworks_dep kconfig)
-	#	$(add_frameworks_dep kconfigwidgets)
-	#	$(add_frameworks_dep kcoreaddons)
-	#	$(add_frameworks_dep kwidgetsaddons)
-	#	$(add_frameworks_dep kxmlgui)
-	#)
-	#$(add_qt_dep qtwidgets)
 COMMON_DEPEND="
 	dev-qt/qtcore:5
 	dev-qt/qtdbus:5
@@ -59,18 +50,6 @@ DEPEND="${COMMON_DEPEND}
 
 PATCHES=( "${FILESDIR}/${PN}-3.3.2-libdir.patch" )
 
-src_prepare() {
-	# overengineered upstream build system
-	# kde5 eclass src_prepare leads to compile failure
-
-	# only enable handbook when required
-	if ! use_if_iuse handbook ; then
-		cmake_comment_add_subdirectory ${KDE_DOC_DIR}
-	fi
-
-	cmake-utils_src_prepare
-}
-
 src_configure() {
 	local mycmakeargs=(
 		-DWITH_PHONON=OFF
@@ -84,11 +63,7 @@ src_configure() {
 		-DWITH_VORBIS=$(usex vorbis)
 	)
 
-	if use kde ; then
-		mycmakeargs+=( "-DWITH_APPS=KDE;CLI" )
-	else
-		mycmakeargs+=( "-DWITH_APPS=Qt;CLI" )
-	fi
+	mycmakeargs+=( "-DWITH_APPS=Qt" )
 
-	kde5_src_configure
+	cmake-utils_src_configure
 }
