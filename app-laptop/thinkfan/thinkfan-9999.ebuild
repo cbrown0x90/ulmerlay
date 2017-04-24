@@ -15,7 +15,8 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="atasmart"
 
-DEPEND="atasmart? ( dev-libs/libatasmart )"
+DEPEND="atasmart? ( dev-libs/libatasmart )
+		dev-cpp/yaml-cpp"
 RDEPEND="${DEPEND}"
 
 src_configure() {
