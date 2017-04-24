@@ -27,7 +27,8 @@ DEPEND="${RDEPEND}
 PATCHES=( "${FILESDIR}/1-st-scrollback.diff"
 		  "${FILESDIR}/2-st-scrollback-mouse.diff"
 		  "${FILESDIR}/3-scroll-no-mod.patch"
-		  "${FILESDIR}/4-alpha.patch" )
+		  "${FILESDIR}/4-alpha.patch"
+		  "${FILESDIR}/5-st-delkey-20160727-308bfbf.diff" )
 
 src_prepare() {
 	epatch ${PATCHES[@]}
