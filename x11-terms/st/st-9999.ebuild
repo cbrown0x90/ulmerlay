@@ -3,7 +3,7 @@
 # $Id$
 
 EAPI=5
-inherit git-r3 savedconfig
+inherit git-r3 savedconfig eutils
 
 DESCRIPTION="simple terminal implementation for X"
 HOMEPAGE="http://st.suckless.org/"
