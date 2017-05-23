@@ -1,13 +1,13 @@
---- a/dwm.c	2016-11-16 09:16:09.863966729 -0500
-+++ b/dwm.c	2016-11-16 09:20:13.179950959 -0500
-@@ -769,10 +769,6 @@
- 		w = TEXTW(tags[i]);
- 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
- 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+--- a/dwm.c   2017-05-17 00:10:00.573457708 -0400
++++ b/dwm.c   2017-05-17 00:11:51.702460349 -0400
+@@ -742,10 +742,6 @@
+		w = TEXTW(tags[i]);
+		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 -		if (occ & 1 << i)
 -			drw_rect(drw, x + boxs, boxs, boxw, boxw,
--			         m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
--			         urg & 1 << i);
- 		x += w;
- 	}
- 	w = blw = TEXTW(m->ltsymbol);
+-				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+-				urg & 1 << i);
+		x += w;
+	}
+	w = blw = TEXTW(m->ltsymbol);
