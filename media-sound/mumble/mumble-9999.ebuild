@@ -118,7 +118,7 @@ src_install() {
 		dir=release
 	fi
 
-	dobin "${dir}"/mumble
+	dobin "${dir}/mumble"
 	dobin scripts/mumble-overlay
 
 	insinto /usr/share/services
@@ -134,8 +134,7 @@ src_install() {
 
 	insopts -o root -g root -m 0755
 	insinto "/usr/$(get_libdir)/mumble"
-	doins "${dir}"/libmumble.so.*
-	dosym libmumble.so.${PV} /usr/$(get_libdir)/mumble/libmumble.so.1
+	doins "${dir}"/libmumble.so*
 	doins "${dir}"/plugins/lib*.so*
 }
 
