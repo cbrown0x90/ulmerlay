@@ -1,6 +1,5 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 inherit cmake-utils
@@ -48,7 +47,8 @@ DEPEND="${COMMON_DEPEND}
 	dev-qt/linguist-tools:5
 "
 
-PATCHES=( "${FILESDIR}/${PN}-3.3.2-libdir.patch" )
+PATCHES=( "${FILESDIR}/${PN}-3.3.2-libdir.patch"
+		  "${FILESDIR}/${PN}-3.4.4-deps.patch" )
 
 src_configure() {
 	local mycmakeargs=(
