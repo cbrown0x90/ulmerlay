@@ -1,10 +1,9 @@
-diff -Naur backup/tmp/config.def.h work/config.def.h
---- backup/tmp/config.def.h	2017-03-22 00:15:21.513468724 -0400
-+++ work/config.def.h	2017-03-22 00:14:41.201467766 -0400
+--- a/config.def.h	2017-03-22 00:15:21.513468724 -0400
++++ b/config.def.h	2017-03-22 00:14:41.201467766 -0400
 @@ -82,6 +82,9 @@
   */
  static unsigned int tabspaces = 8;
- 
+
 +/* bg opacity */
 +const int alpha = 0xdd;
 +
@@ -17,8 +16,8 @@ diff -Naur backup/tmp/config.def.h work/config.def.h
  	"#555555",
 +    "black",
  };
- 
- 
+
+
 @@ -117,7 +121,7 @@
   * foreground, background, cursor, reverse cursor
   */
@@ -27,22 +26,20 @@ diff -Naur backup/tmp/config.def.h work/config.def.h
 +unsigned int defaultbg = 257;
  unsigned int defaultcs = 256;
  unsigned int defaultrcs = 257;
- 
-diff -Naur backup/tmp/config.mk work/config.mk
---- backup/tmp/config.mk	2017-03-22 00:15:21.514468724 -0400
-+++ work/config.mk	2017-03-22 00:14:41.202467766 -0400
+
+--- a/config.mk   2017-07-16 11:32:11.658196308 -0400
++++ b/config.mk 2017-07-16 11:35:43.647201346 -0400
 @@ -14,7 +14,7 @@
- INCS = -I. -I/usr/include -I${X11INC} \
+ INCS = -I$(X11INC) \
         `pkg-config --cflags fontconfig` \
         `pkg-config --cflags freetype2`
--LIBS = -L/usr/lib -lc -L${X11LIB} -lm -lrt -lX11 -lutil -lXft \
-+LIBS = -L/usr/lib -lc -L${X11LIB} -lm -lrt -lX11 -lutil -lXext -lXft -lXrender\
-        `pkg-config --libs fontconfig`  \
+-LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft \
++LIBS = -L${X11LIB} -lm -lrt -lX11 -lutil -lXft -lXext -lXrender\
+        `pkg-config --libs fontconfig` \
         `pkg-config --libs freetype2`
- 
-diff -Naur backup/tmp/st.h work/st.h
---- backup/tmp/st.h	2017-03-22 00:15:21.513468724 -0400
-+++ work/st.h	2017-03-22 00:14:41.201467766 -0400
+
+--- a/st.h	2017-03-22 00:15:21.513468724 -0400
++++ b/st.h	2017-03-22 00:14:41.201467766 -0400
 @@ -255,6 +255,7 @@
  extern unsigned int cursorthickness;
  extern unsigned int blinktimeout;
@@ -51,13 +48,12 @@ diff -Naur backup/tmp/st.h work/st.h
  extern const char *colorname[];
  extern size_t colornamelen;
  extern unsigned int defaultfg;
-diff -Naur backup/tmp/x.c work/x.c
---- backup/tmp/x.c	2017-03-22 00:15:21.514468724 -0400
-+++ work/x.c	2017-03-22 00:14:41.202467766 -0400
+--- a/x.c	2017-03-22 00:15:21.514468724 -0400
++++ b/x.c	2017-03-22 00:14:41.202467766 -0400
 @@ -23,6 +23,9 @@
  #include "win.h"
  #include "st.h"
- 
+
 +/* Constants */
 +#define OPAQUE 0Xff
 +
@@ -69,7 +65,7 @@ diff -Naur backup/tmp/x.c work/x.c
  #define TRUEGREEN(x)		(((x) & 0xff00))
  #define TRUEBLUE(x)		(((x) & 0xff) << 8)
 +#define USE_ARGB (alpha != OPAQUE && opt_embed == NULL)
- 
+
  typedef XftDraw *Draw;
  typedef XftColor Color;
 @@ -51,6 +55,7 @@
@@ -78,10 +74,10 @@ diff -Naur backup/tmp/x.c work/x.c
  	int gm; /* geometry mask */
 +    int depth; /*  bit depth */
  } XWindow;
- 
+
  typedef struct {
 @@ -561,7 +566,7 @@
- 
+
  	XFreePixmap(xw.dpy, xw.buf);
  	xw.buf = XCreatePixmap(xw.dpy, xw.win, win.w, win.h,
 -			DefaultDepth(xw.dpy, xw.scr));
@@ -102,7 +98,7 @@ diff -Naur backup/tmp/x.c work/x.c
 +	}
  	loaded = 1;
  }
- 
+
 @@ -878,7 +890,38 @@
  	if (!(xw.dpy = XOpenDisplay(NULL)))
  		die("Can't open display\n");
@@ -140,12 +136,12 @@ diff -Naur backup/tmp/x.c work/x.c
 +			exit(1);
 +		}
 +	}
- 
+
  	/* font */
  	if (!FcInit())
 @@ -888,7 +931,10 @@
  	xloadfonts(usedfont, 0);
- 
+
  	/* colors */
 -	xw.cmap = XDefaultColormap(xw.dpy, xw.scr);
 +    if (! USE_ARGB)
@@ -153,7 +149,7 @@ diff -Naur backup/tmp/x.c work/x.c
 +	else
 +		xw.cmap = XCreateColormap(xw.dpy, XRootWindow(xw.dpy, xw.scr), xw.vis, None);
  	xloadcols();
- 
+
  	/* adjust fixed window geometry */
 @@ -911,16 +957,17 @@
  	if (!(opt_embed && (parent = strtol(opt_embed, NULL, 0))))
@@ -163,7 +159,7 @@ diff -Naur backup/tmp/x.c work/x.c
 +			win.w, win.h, 0, xw.depth, InputOutput,
  			xw.vis, CWBackPixel | CWBorderPixel | CWBitGravity
  			| CWEventMask | CWColormap, &xw.attrs);
- 
+
  	memset(&gcvalues, 0, sizeof(gcvalues));
  	gcvalues.graphics_exposures = False;
 -	dc.gc = XCreateGC(xw.dpy, parent, GCGraphicsExposures,
@@ -176,4 +172,4 @@ diff -Naur backup/tmp/x.c work/x.c
 -			DefaultDepth(xw.dpy, xw.scr));
  	XSetForeground(xw.dpy, dc.gc, dc.col[defaultbg].pixel);
  	XFillRectangle(xw.dpy, xw.buf, dc.gc, 0, 0, win.w, win.h);
- 
+
