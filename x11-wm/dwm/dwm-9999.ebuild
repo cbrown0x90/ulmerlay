@@ -26,7 +26,8 @@ PATCHES=( "${FILESDIR}/1-movestack-5.8.2.diff"
 		  "${FILESDIR}/4-dwm-20160731-statusallmons.diff"
 		  "${FILESDIR}/5-removerect.diff"
 		  "${FILESDIR}/6-dwm-noborder-20170207-bb3bd6f.diff"
-		  "${FILESDIR}/7-dwm-statuscolors.diff" )
+		  "${FILESDIR}/7-dwm-statuscolors.diff"
+		  "${FILESDIR}/8-strip-utf8.diff")
 
 src_prepare() {
 	epatch ${PATCHES[@]}
