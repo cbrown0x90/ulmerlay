@@ -13,7 +13,7 @@ if [[ ${PV} == "9999" ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd"
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd"
 fi
 
 LICENSE="BSD-2"
@@ -34,7 +34,7 @@ COMMON_DEPEND="kernel_FreeBSD? ( || ( >=sys-freebsd/freebsd-ubin-9.0_rc sys-proc
 	)
 	selinux? (
 		sys-apps/policycoreutils
-		sys-libs/libselinux
+		>=sys-libs/libselinux-2.6
 	)
 	!<sys-apps/baselayout-2.1-r1
 	!<sys-fs/udev-init-scripts-27"
@@ -44,15 +44,15 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	!prefix? (
 		kernel_linux? (
-			|| ( >=sys-apps/sysvinit-2.86-r6[selinux?]
-				 sys-process/runit )
+            || ( >=sys-apps/sysvinit-2.86-r6[selinux?]
+                 sys-process/runit )
 			virtual/tmpfiles
 		)
 		kernel_FreeBSD? ( sys-freebsd/freebsd-sbin )
 	)
 	selinux? (
-		sec-policy/selinux-base-policy
-		sec-policy/selinux-openrc
+		>=sec-policy/selinux-base-policy-2.20170204-r4
+		>=sec-policy/selinux-openrc-2.20170204-r4
 	)
 "
 
