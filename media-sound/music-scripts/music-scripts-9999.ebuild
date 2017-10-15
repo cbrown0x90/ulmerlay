@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 RDEPEND="app-cdr/cuetools
-		 media-sound/shntool
+		 media-sound/shntool[mac]
 		 media-video/ffmpeg[vorbis]
 		 media-libs/flac"
 
