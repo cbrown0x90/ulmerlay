@@ -32,19 +32,11 @@ RDEPEND="${COMMON_DEPEND}
 
 RESTRICT="test"
 
-python_compile_all() {
-	"${PYTHON}" scripts/asciidoc2html.py || die "Failed generating docs"
-	a2x -f manpage doc/${PN}.1.asciidoc || die "Failed generating man page"
-}
-
 python_test() {
 	py.test tests || die "Tests failed with ${EPYTHON}"
 }
 
 python_install_all() {
-	doman doc/${PN}.1
-	dodoc {CHANGELOG,CONTRIBUTING,FAQ,README}.asciidoc
-
 	domenu ${PN}.desktop
 	doicon -s scalable icons/${PN}.svg
 
