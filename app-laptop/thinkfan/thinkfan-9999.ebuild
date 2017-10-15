@@ -8,7 +8,7 @@ inherit cmake-utils git-r3
 
 DESCRIPTION="simple fan control program for thinkpads"
 HOMEPAGE="github.com/vmatare/thinkfan"
-EGIT_REPO_URI="git://github.com/vmatare/thinkfan.git"
+EGIT_REPO_URI="https://github.com/vmatare/thinkfan.git"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -22,7 +22,7 @@ RDEPEND="${DEPEND}"
 src_configure() {
 	mycmakeargs+=(
 		"-DCMAKE_BUILD_TYPE:STRING=Debug"
-		"$(cmake-utils_use_use atasmart ATASMART)"
+		"-DUSE_ATASMART=$(usex atasmart)"
 	)
 
 	cmake-utils_src_configure
