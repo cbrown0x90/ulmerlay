@@ -1,20 +1,10 @@
---- a/drw.h	2017-05-24 21:40:16.330373152 -0400
-+++ b/drw.h	2017-05-24 21:41:38.549375106 -0400
-@@ -50,6 +50,7 @@
- void drw_setscheme(Drw *drw, Scm scm);
-
- /* Drawing functions */
-+void drw_colored_text(Drw *, Scm *, int, int, int, unsigned int, unsigned int, char *);
- void drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int invert);
- int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, const char *text, int invert);
-
---- a/drw.c	2017-05-24 21:40:16.330373152 -0400
-+++ b/drw.c	2017-05-24 21:31:01.081359955 -0400
+--- a/drw.c	2017-11-07 19:11:56.092482696 -0500
++++ b/drw.c	2017-11-07 19:18:49.327497472 -0500
 @@ -223,6 +223,33 @@
  }
 
  void
-+drw_colored_text(Drw *drw, Scm *scheme, int numcolors, int x, int y, unsigned int w, unsigned int h, char *text)
++drw_colored_text(Drw *drw, Clr **scheme, int numcolors, int x, int y, unsigned int w, unsigned int h, char *text)
 +{
 +    if (!drw || !drw->scheme)
 +		return;
@@ -44,8 +34,18 @@
  drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int invert)
  {
  	if (!drw || !drw->scheme)
---- a/dwm.c	2017-05-24 21:41:08.694374396 -0400
-+++ b/dwm.c	2017-05-24 21:31:49.071361096 -0400
+--- a/drw.h	2017-11-07 19:11:56.092482696 -0500
++++ b/drw.h	2017-11-07 19:19:08.520498158 -0500
+@@ -50,6 +50,7 @@
+ void drw_setscheme(Drw *drw, Clr *scm);
+
+ /* Drawing functions */
++void drw_colored_text(Drw *, Clr **, int, int, int, unsigned int, unsigned int, char *);
+ void drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int invert);
+ int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, const char *text, int invert);
+
+--- a/dwm.c	2017-11-07 19:13:09.507485321 -0500
++++ b/dwm.c	2017-11-07 19:13:56.635487006 -0500
 @@ -722,11 +722,11 @@
  	unsigned int i, occ = 0, urg = 0;
  	Client *c;
