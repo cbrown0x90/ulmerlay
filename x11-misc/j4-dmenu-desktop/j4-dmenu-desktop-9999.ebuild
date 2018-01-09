@@ -8,7 +8,7 @@ inherit git-r3 cmake-utils
 
 DESCRIPTION="A rewrite of i3-dmenu-desktop, which is much faster"
 HOMEPAGE="https://github.com/enkore/j4-dmenu-desktop"
-EGIT_REPO_URI="git://github.com/enkore/j4-dmenu-desktop.git"
+EGIT_REPO_URI="https://github.com/enkore/j4-dmenu-desktop.git"
 
 LICENSE="GPL-3"
 SLOT="0"
