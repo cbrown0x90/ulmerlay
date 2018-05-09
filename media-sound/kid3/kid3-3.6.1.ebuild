@@ -1,7 +1,8 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+
 inherit cmake-utils
 
 DESCRIPTION="Simple tag editor based on Qt"
@@ -20,9 +21,9 @@ COMMON_DEPEND="
 	dev-qt/qtdbus:5
 	dev-qt/qtdeclarative:5
 	dev-qt/qtgui:5
+	dev-qt/qtmultimedia:5
 	dev-qt/qtnetwork:5
 	dev-qt/qtxml:5
-	dev-qt/qtmultimedia:5
 	sys-libs/readline:0=
 	acoustid? (
 		media-libs/chromaprint
@@ -66,6 +67,5 @@ src_configure() {
 	)
 
 	mycmakeargs+=( "-DWITH_APPS=Qt" )
-
 	cmake-utils_src_configure
 }
