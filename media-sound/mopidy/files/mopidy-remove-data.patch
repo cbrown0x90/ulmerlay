@@ -1,0 +1,10 @@
+--- a/setup.py	2018-05-09 15:49:42.508298937 -0400
++++ b/setup.py	2018-05-09 15:45:27.920685003 -0400
+@@ -22,7 +22,6 @@
+     long_description=open('README.rst').read(),
+     packages=find_packages(exclude=['tests', 'tests.*']),
+     zip_safe=False,
+-    include_package_data=True,
+     install_requires=[
+         'Pykka >= 1.1',
+         'requests >= 2.0',
