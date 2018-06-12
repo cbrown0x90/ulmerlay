@@ -44,8 +44,10 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	!prefix? (
 		kernel_linux? (
-			|| ( >=sys-apps/sysvinit-2.86-r6[selinux?]
-                 sys-process/runit )
+			|| (
+				>=sys-apps/sysvinit-2.86-r6[selinux?]
+				sys-process/runit
+			)
 			virtual/tmpfiles
 		)
 		kernel_FreeBSD? ( sys-freebsd/freebsd-sbin )
@@ -62,9 +64,6 @@ PDEPEND="netifrc? ( net-misc/netifrc )"
 
 src_prepare() {
 	default
-
-	sed -i 's:0444:0644:' mk/sys.mk || die
-
 	if [[ ${PV} == "9999" ]] ; then
 		local ver="git-${EGIT_VERSION:0:6}"
 		sed -i "/^GITVER[[:space:]]*=/s:=.*:=${ver}:" mk/gitver.mk || die
