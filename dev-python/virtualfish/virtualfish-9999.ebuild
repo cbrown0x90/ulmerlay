@@ -16,4 +16,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
+DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
+		<=dev-python/pkgconfig-2[${PYTHON_USEDEP}]
+		<=dev-python/psutil-6[${PYTHON_USEDEP}]
+		<=dev-python/xdg-2[${PYTHON_USEDEP}]
+"
