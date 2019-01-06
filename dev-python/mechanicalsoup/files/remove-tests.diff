@@ -1,9 +1,0 @@
---- a/setup.py	2017-10-15 16:42:06.521526317 -0400
-+++ b/setup.py	2017-10-15 16:42:46.957524515 -0400
-@@ -48,6 +48,4 @@
-     # "install_requires" vs pip's requirements files see:
-     # https://packaging.python.org/en/latest/requirements.html
-     install_requires=requirements_from_file('requirements.txt'),
--    setup_requires=['pytest-runner'],
--    tests_require=requirements_from_file('tests/requirements.txt'),
- )
