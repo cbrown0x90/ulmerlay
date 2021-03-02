@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Ghidra
+Exec=/opt/ghidra/ghidraRun
+Type=Application
+Terminal=false
