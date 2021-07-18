@@ -9,7 +9,7 @@ inherit distutils-r1
 
 DESCRIPTION="Tool to search for gadgets in binaries to facilitate your ROP exploitation"
 HOMEPAGE="http://shell-storm.org/project/ROPgadget/"
-SRC_URI="https://github.com/JonathanSalwan/ROPgadget/archive/v6.5.tar.gz"
+SRC_URI="https://github.com/JonathanSalwan/ROPgadget/archive/v${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
