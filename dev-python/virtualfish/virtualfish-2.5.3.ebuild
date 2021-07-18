@@ -18,5 +18,6 @@ IUSE=""
 
 DEPEND="dev-python/pkgconfig
 		dev-python/psutil
-		dev-python/virtualenv"
+		dev-python/virtualenv
+		dev-python/packaging"
 RDEPEND="${DEPEND}"
