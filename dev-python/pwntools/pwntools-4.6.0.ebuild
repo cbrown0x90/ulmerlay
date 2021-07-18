@@ -31,7 +31,7 @@ DEPEND="dev-lang/python
 		>=dev-python/psutil-3.3.0
 		>=dev-python/intervaltree-3.0
 		dev-python/sortedcontainers
-		=dev-libs/unicorn-bindings-1.0.2[python]
+		>=dev-util/unicorn-1.0.2[python]
 		>=dev-python/six-1.12.0
 		dev-python/rpyc
 		dev-python/colored-traceback"
