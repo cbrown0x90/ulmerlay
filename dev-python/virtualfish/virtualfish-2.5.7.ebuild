@@ -3,8 +3,8 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{7..11} )
-
+DISTUTILS_USE_PEP517=poetry
+PYTHON_COMPAT=( python3_{7..12} )
 inherit distutils-r1
 
 DESCRIPTION="Fish shell tool for managing Python virtual environments"
