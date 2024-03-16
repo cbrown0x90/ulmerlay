@@ -16,7 +16,7 @@ SLOT="0"
 LICENSE="vim"
 IUSE="nls acl"
 
-DEPEND="sys-devel/autoconf
+DEPEND="dev-build/autoconf
         !!app-editors/vim-core"
 
 S=${WORKDIR}/vim-${PV}
